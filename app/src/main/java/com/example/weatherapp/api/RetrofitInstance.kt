@@ -2,25 +2,29 @@ package com.example.weatherapp.api
 
 import com.example.weatherapp.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 class RetrofitInstance {
-    private lateinit var retrofit: Retrofit
+   companion object{
+       private val retrofit by lazy {
+           val logging = HttpLoggingInterceptor()
+           logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+           val client = OkHttpClient.Builder()
+               .addInterceptor(logging)
+               .build()
+           Retrofit.Builder()
+               .baseUrl(BASE_URL)
+               .addConverterFactory(GsonConverterFactory.create())
+               .client(client)
+               .build()
+       }
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(60,TimeUnit.SECONDS)
-        .readTimeout(60,TimeUnit.SECONDS)
-        .writeTimeout(60,TimeUnit.SECONDS)
-        .build()
-
-    fun getClient() :Retrofit{
-        retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        return retrofit
-    }
+       val api by lazy {
+           retrofit.create(WeatherApi::class.java)
+       }
+   }
 }
