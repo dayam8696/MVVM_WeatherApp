@@ -9,15 +9,15 @@ import retrofit2.http.Query
 
 // // https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=d1d76e6f74c25f60b602ac34a75cc0e5
 interface WeatherApi {
-    @GET("data/2.5/weather")
+    @GET("/data/2.5/weather")
     suspend fun getCurrentWeather(
         @Query("lat")
-        lat :Double = 10.91,
-        @Query("lng")
-        lng : Double = 42.34,
+        lat :String = "10.91",
+        @Query("lon")
+        lng : String = "42.34",
         @Query("unit")
         unit : String = "metrics",
         @Query("appid")
-        ApiKey :String = API_KEY,
-    ) :Call<CurrentWeather>
+        ApiKey :String = "d1d76e6f74c25f60b602ac34a75cc0e5"
+    ) :Response<CurrentWeather>
 }

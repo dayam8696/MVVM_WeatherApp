@@ -17,7 +17,7 @@ class RetrofitInstance {
                .addInterceptor(logging)
                .build()
            Retrofit.Builder()
-               .baseUrl(BASE_URL)
+               .baseUrl("https://api.openweathermap.org/")
                .addConverterFactory(GsonConverterFactory.create())
                .client(client)
                .build()
