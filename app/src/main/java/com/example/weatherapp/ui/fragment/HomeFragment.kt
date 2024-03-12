@@ -49,6 +49,7 @@ class HomeFragment :BaseFragment() {
                 is Resource.Success -> {
                     response.data?.let { weatherResponse ->
                         binding.tvTemp.text = weatherResponse.main.temp.toString()
+
                         Log.d("DYM", weatherResponse.toString())
                     }
                 }
