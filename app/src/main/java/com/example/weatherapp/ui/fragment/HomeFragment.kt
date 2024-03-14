@@ -5,17 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.weatherapp.ViewModel.WeatherViewModel
 import com.example.weatherapp.databinding.HomeFragmentBinding
 import com.example.weatherapp.ui.activites.MainActivity
 import com.example.weatherapp.utils.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class HomeFragment :BaseFragment() {
     private val binding by lazy { HomeFragmentBinding.inflate(layoutInflater) }
@@ -48,7 +41,13 @@ class HomeFragment :BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     response.data?.let { weatherResponse ->
-                        binding.tvTemp.text = weatherResponse.main.temp.toString()
+                        binding.apply {
+                            tvTemp.text = "${weatherResponse.main.temp.toInt().toString()}°C"
+                            tvMaxTemp.text = "Max temp:${weatherResponse.main.temp_max.toInt().toString()}°C"
+                            tvMinTemp.text = "Min temp${weatherResponse.main.temp_min.toInt().toString()}°C"
+
+                        }
+
 
                         Log.d("DYM", weatherResponse.toString())
                     }
